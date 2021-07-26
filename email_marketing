@@ -1,0 +1,218 @@
+import smtplib, ssl
+
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+subject = "enter your business name"
+sender_email = "enter your business Email ID here"
+
+password = input("Type your password and press enter:")
+
+# Create a multipart message and set headers
+message = MIMEMultipart()
+message["From"] = sender_email
+message["Subject"] = subject
+ # Recommended for mass emails
+
+check=input("Choose your Mail type and press enter 1/2/3/4:" "\n" "Commercial Mail----->1" "\n" "Follow up Marketing Mail----->2" "\n" "Dish Recharge offer----->3" "\n" "Write custom mail------>4" "\n")
+
+if check=="1":
+    a = int(input("How many person you want to send this to:"))
+    b = []
+    k = 1
+    for i in range(a):
+        c = input("enter email id ")
+        print("customer No:", k)
+        b.append(c)
+        k = k + 1
+    print("Your entered customer's email id are ", b)
+    text1 = """\
+    Hi,
+    How are you?
+    Looking for affordable 'enter your business product type' product??
+    'enter your business name' has many 'your business product':
+    'enter your business url here'
+    For any query  Contact us:+91 *********** or Email us: ****************@gmail.com"""
+    body = text1
+    # Add body to email
+    message.attach(MIMEText(body, "plain"))
+
+    filename = "document1.pdf"  # In same directory as script
+
+    # Open PDF file in binary mode
+    with open(filename, "rb") as attachment:
+        # Add file as application/octet-stream
+        # Email client can usually download this automatically as attachment
+        part = MIMEBase("application", "octet-stream")
+        part.set_payload(attachment.read())
+
+    # Encode file in ASCII characters to send by email
+    encoders.encode_base64(part)
+
+    # Add header as key/value pair to attachment part
+    part.add_header(
+        "Content-Disposition",
+        f"attachment; filename= {filename}",
+    )
+
+    # Add attachment to message and convert message to string
+    message.attach(part)
+    text = message.as_string()
+    for i in range(a):
+        receiver_email=b[i]
+        # Log in to server using secure context and send email
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+
+            server.login(sender_email, password)
+            server.sendmail(sender_email, receiver_email, text)
+elif check=="2":
+    a = int(input("How many person you want to send this to:"))
+    b = []
+    k = 1
+    for i in range(a):
+        c = input("enter email id ")
+        print("customer No:", k)
+        b.append(c)
+        k = k + 1
+    print("Your entered customer's email id are ", b)
+    text2 = """\
+    Thank you for visiting New L.K electronics
+    For any query  Contact us:+91 ************** or Email us: *************@gmail.com 
+    Check out our other products
+    'your business name' has many 'your business product':
+    'enter your business url here' """
+
+    # Turn these into plain MIMEText objects
+    part1 = MIMEText(text2, "plain")
+    # Add plain-text parts to MIMEMultipart message
+    # The email client will try to render the last part first
+    message.attach(part1)
+    for i in range(a):
+        receiver_email=b[i]
+        # Create secure connection with server and send email
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(sender_email, password)
+            server.sendmail(
+            sender_email, receiver_email, message.as_string()
+           )
+
+    body=text2
+elif check=="3":
+    a = int(input("How many person you want to send this to:"))
+    b = []
+    k = 1
+    for i in range(a):
+        c = input("enter email id ")
+        print("customer No:", k)
+        b.append(c)
+        k = k + 1
+    print("Your entered customer's email id are ", b)
+    text3="Your  "
+    text2=input("write the Name of the company and press enter:")
+    text4=" Seems to expires soon! \n Recharge Now \n Contact us:+91 ************* \n Email us: ***********@gmail.com \n Ignore this mail if you have already recharged "
+    text1=text3+text2+text4
+    body = text1
+    # Add body to email
+    message.attach(MIMEText(body, "plain"))
+
+    filename = input("enter the file name according to the company with .extension :")  # In same directory as script
+
+    # Open PDF file in binary mode
+    with open(filename, "rb") as attachment:
+        # Add file as application/octet-stream
+        # Email client can usually download this automatically as attachment
+        part = MIMEBase("application", "octet-stream")
+        part.set_payload(attachment.read())
+
+    # Encode file in ASCII characters to send by email
+    encoders.encode_base64(part)
+
+    # Add header as key/value pair to attachment part
+    part.add_header(
+        "Content-Disposition",
+        f"attachment; filename= {filename}",
+    )
+    # Add attachment to message and convert message to string
+    message.attach(part)
+    text = message.as_string()
+    for i in range(a):
+        receiver_email=b[i]
+
+        # Log in to server using secure context and send email
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(sender_email, password)
+            server.sendmail(sender_email, receiver_email, text)
+elif check=="4":
+    a = int(input("How many person you want to send this to:"))
+    b = []
+    k = 1
+    for i in range(a):
+        c = input("enter email id ")
+        print("customer No:", k)
+        b.append(c)
+        k = k + 1
+    print("Your entered customer's email id are ", b)
+    t=input("Do you want to add any file press(y/n):")
+    if t=="y":
+        text1 = input("write what you wany in the body part and press enter:")
+        body = text1
+        # Add body to email
+        message.attach(MIMEText(body, "plain"))
+        filename =input("enter the file name with '.' extension:")  # In same directory as script
+
+        # Open PDF file in binary mode
+        with open(filename, "rb") as attachment:
+            # Add file as application/octet-stream
+            # Email client can usually download this automatically as attachment
+            part = MIMEBase("application", "octet-stream")
+            part.set_payload(attachment.read())
+
+        # Encode file in ASCII characters to send by email
+        encoders.encode_base64(part)
+
+        # Add header as key/value pair to attachment part
+        part.add_header(
+            "Content-Disposition",
+            f"attachment; filename= {filename}",
+        )
+        # Add attachment to message and convert message to string
+        message.attach(part)
+        text = message.as_string()
+        for i in range(a):
+            receiver_email = b[i]
+            # Log in to server using secure context and send email
+            context = ssl.create_default_context()
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+                server.login(sender_email, password)
+                server.sendmail(sender_email, receiver_email, text)
+
+    else:
+        text1 = input("write what you want in the body part and press enter:")
+        # Turn these into plain MIMEText objects
+        part1 = MIMEText(text1, "plain")
+        # Add plain-text parts to MIMEMultipart message
+        # The email client will try to render the last part first
+        message.attach(part1)
+        for i in range(a):
+            receiver_email = b[i]
+            # Create secure connection with server and send email
+            context = ssl.create_default_context()
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+                server.login(sender_email, password)
+                server.sendmail(
+                    sender_email, receiver_email, message.as_string()
+                )
+
+else:
+    print('Wrong input please try again!')
+
+
+
+
+
+
