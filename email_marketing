@@ -113,7 +113,7 @@ elif check=="3":
     print("Your entered customer's email id are ", b)
     text3="Your  "
     text2=input("write the Name of the company and press enter:")
-    text4=" Seems to expires soon! \n Recharge Now \n Contact us:+91 ************* \n Email us: ***********@gmail.com \n Ignore this mail if you have already recharged "
+    text4=" Seems to expires soon! \n Recharge Now \n Contact us:+91 ************* \n Email us: ************@gmail.com \n Ignore this mail if you have already recharged "
     text1=text3+text2+text4
     body = text1
     # Add body to email
